@@ -1,0 +1,10 @@
+snippet importcms "description" b
+import FWCore.ParameterSet.Config as cms
+endsnippet
+
+snippet modifier "description"
+from Configuration.Eras.Modifier_${1}_cff import ${1}
+${1}.toModify(${2},
+	${3}=${4}
+)
+endsnippet

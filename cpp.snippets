@@ -1,0 +1,133 @@
+###############################################################################
+# EDAanlyzer / header
+###############################################################################
+
+snippet EDGetTokenT "Description"
+const edm::EDGetTokenT<${1}> ${2}_token_;
+endsnippet
+
+snippet ESGetToken "Description"
+const edm::ESGetToken<${1}, ${2}> ${3}_token_;
+endsnippet
+
+###############################################################################
+# EDAnalyzer / constructor initializer list
+###############################################################################
+
+snippet begin_run_token "Description"
+	${1}_token_begin_run_(esConsumes<edm::Transition::BeginRun>()),
+endsnippet
+
+snippet ctor_init_list "Description"
+${1}(${4:ps}.getParameter<${2}>("${3}")),
+endsnippet
+
+snippet ctor_init_list_untracked "Description"
+${1}(${4:ps}.getUntrackedParameter<${2}>("${3}")),
+endsnippet
+
+
+###############################################################################
+# EDAnalyzer / ctor
+###############################################################################
+
+snippet init_muon_service "Description"
+muon_service_ = std::make_unique<MuonServiceProxy>(ps.getParameter<edm::ParameterSet>("ServiceParameters"), consumesCollector());
+endsnippet
+	
+###############################################################################
+# EDAnalyzer::analyze
+###############################################################################
+snippet getHandleEvent "Description"
+const ${1}* ${2} = nullptr;
+if (auto handle = event.getHandle(${2}_token_)) {
+	${2} = handle.product();
+} else {
+	edm::LogError(${3:log_category_}${4}) << "failed to get ${1} from Event";
+	return;
+}
+endsnippet
+
+snippet getHandleEventSetup "Description"
+const ${1}* ${2} = nullptr;
+if (auto handle = event_setup.getHandle(${2}_token_)) {
+	${2} = handle.product();
+} else {
+	edm::LogError(${3:log_category_}${4}) << "failed to get ${1} from EventSetup";
+	return;
+}
+endsnippet
+
+
+###############################################################################
+# EDAnalyzer::fillDescriptions
+###############################################################################
+snippet fillDescriptions "Description"
+void ${1}::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
+	edm::ParameterSetDescription desc;
+
+	descriptions.addWithDefaultLabel(desc);
+}
+endsnippet
+
+snippet desc.add "Description"
+desc.add<${1}>("${2}", ${3});
+endsnippet
+
+snippet desc.addUntracked "Description"
+desc.addUntracked<${1}>("${2}", ${3});
+endsnippet
+
+###############################################################################
+# MessageLogger
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMessageLogger
+###############################################################################
+
+snippet LogDebug "Description"
+LogDebug(${3:log_category_}${3}) << ${1};
+endsnippet
+
+snippet LogTrace "Description"
+LogTrace(${3:log_category_}${3}) << ${1};
+endsnippet
+
+snippet LogInfo "Description"
+edm::LogInfo(${3:log_category_}${3}) << ${1};
+endsnippet
+
+snippet LogVerbatim "Description"
+edm::LogVerbatim(${3:log_category_}${3}) << ${1};
+endsnippet
+
+snippet LogWarning "Description"
+edm::LogWarning(${3:log_category_}${3}) << ${1};
+endsnippet
+	
+snippet LogPrint "Description"
+edm::LogPrint(${3:log_category_}${3}) << ${1};
+endsnippet
+	
+snippet LogError "Description"	
+edm::LogError(${3:log_category_}${3}) << ${1};
+endsnippet
+
+snippet LogProblem "Description"
+edm::LogProblem(${3:log_category_}${3}) << ${1};
+endsnippet
+	
+###############################################################################
+# SealModule.cc
+###############################################################################
+snippet DEFINE_FWK_MODULE "Description"
+DEFINE_FWK_MODULE(${1})
+endsnippet
+
+
+###############################################################################
+# DQMEDHarvester
+###############################################################################
+snippet dqmEndJob "Description"
+void ${1}::dqmEndJob(DQMStore::IBooker& ${2:booker}, DQMStore::IGetter& ${2:getter}) {
+
+}
+endsnippet
